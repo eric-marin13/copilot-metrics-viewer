@@ -71,4 +71,4 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
-          sarif_file: './snyk'
+          sarif_file: './snyk/'
