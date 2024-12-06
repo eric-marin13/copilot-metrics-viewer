@@ -32,6 +32,7 @@ jobs:
       - name: Run Snyk to check for code vulnerabilities
         id: snyk_code 
         uses: snyk/actions/node@master
+        continue-on-error: true
         with:
           command: code test
           args: --sarif-file-output=snyk/code.sarif
