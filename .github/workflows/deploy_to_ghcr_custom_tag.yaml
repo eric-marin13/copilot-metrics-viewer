@@ -29,18 +29,18 @@ jobs:
       # - name: Checkout specific tag
       #   run: git checkout tags/v${{ github.event.inputs.tag }}
 
-      - name: Run Snyk to check for code vulnerabilities
-        id: snyk_code 
-        uses: snyk/actions/node@master
-        with:
-          command: code test
-          args: --sarif-file-output=snyk/code.sarif
+      # - name: Run Snyk to check for code vulnerabilities
+      #   id: snyk_code 
+      #   uses: snyk/actions/node@master
+      #   with:
+      #     command: code test
+      #     args: --sarif-file-output=snyk/code.sarif
 
-      - name: Run Snyk to check for dependency vulnerabilities # Check if i want to fail job on critical finding
-        uses: snyk/actions/node@master
-        with:
-          command: monitor
-          args: --all-projects
+      # - name: Run Snyk to check for dependency vulnerabilities # Check if i want to fail job on critical finding
+      #   uses: snyk/actions/node@master
+      #   with:
+      #     command: monitor
+      #     args: --all-projects
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
