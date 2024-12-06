@@ -73,7 +73,7 @@ jobs:
         id: snyk_image
         uses: snyk/actions/node@master
         with:
-          command: code test ghcr.io/$GITHUB_REPO:$TAG
+          command: container test ghcr.io/$GITHUB_REPO:$TAG
           args: --sarif-file-output=snyk-container.sarif --file=Dockerfile --severity-threshold=critical
 
       - name: Upload sarif files
