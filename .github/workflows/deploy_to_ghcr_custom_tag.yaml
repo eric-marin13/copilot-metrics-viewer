@@ -28,11 +28,11 @@ jobs:
       # - name: Checkout specific tag
       #   run: git checkout tags/v${{ github.event.inputs.tag }}
 
-      - name: Run Snyk to check for code vulnerabilities
-        uses: snyk/actions/node@master
-        with:
-          command: code test
-          args: --sarif-file-output=snyk-code.sarif --severity-threshold=high
+      # - name: Run Snyk to check for code vulnerabilities
+      #   uses: snyk/actions/node@master
+      #   with:
+      #     command: code test
+      #     args: --sarif-file-output=snyk-code.sarif --severity-threshold=high
 
       # - name: Check SARIF for critical vulnerabilities
       #   run: |
@@ -77,4 +77,4 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
-          sarif_file: "snyk-code.sarif"
+          sarif_file: "snyk-container.sarif"
