@@ -34,7 +34,7 @@ jobs:
         uses: snyk/actions/node@master
         with:
           command: code test
-          args: --sarif-file-output=snyk/code.sarif --report --project-name="eric-marin13/copilot-metrics-viewer"
+          args: --sarif-file-output=snyk/code.sarif
 
       - name: Run Snyk to check for dependency vulnerabilities
         uses: snyk/actions/node@master
