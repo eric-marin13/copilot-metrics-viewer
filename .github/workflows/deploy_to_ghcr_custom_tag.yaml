@@ -36,7 +36,7 @@ jobs:
           command: code test
           args: --sarif-file-output=snyk/code.sarif
 
-      - name: Run Snyk to check for dependency vulnerabilities
+      - name: Run Snyk to check for dependency vulnerabilities # Check if i want to fail job on critical finding
         uses: snyk/actions/node@master
         with:
           command: monitor
@@ -50,7 +50,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push Docker Image
-        id: build
         run: |
           GITHUB_REPO="${GITHUB_REPO,,}"  # convert repo name to lowercase as required by docker
           TAG=${{ github.event.inputs.tag }}
@@ -63,11 +62,10 @@ jobs:
           GITHUB_REPO: ${{ github.repository }}
   
       - name: Run Snyk to check for container vulnerabilities
-        id: snyk_image
         uses: snyk/actions/node@master
         with:
-          command: container monitor ghcr.io/${{ env.GITHUB_REPO }}:${{ env.TAG }}
-          args: --sarif-file-output=snyk/container.sarif --file=Dockerfile --report
+          command: container test ghcr.io/${{ env.GITHUB_REPO }}:${{ env.TAG }}
+          args: --file=Dockerfile
 
       - name: Upload sarif files
         uses: github/codeql-action/upload-sarif@v3
