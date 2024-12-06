@@ -17,6 +17,7 @@ jobs:
     permissions:
       contents: read
       security-events: write
+      packages: write
     env:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     steps:
@@ -29,6 +30,7 @@ jobs:
       #   run: git checkout tags/v${{ github.event.inputs.tag }}
 
       # - name: Run Snyk to check for code vulnerabilities
+      #   id: snyk_code 
       #   uses: snyk/actions/node@master
       #   with:
       #     command: code test
@@ -68,6 +70,7 @@ jobs:
           GITHUB_REPO: ${{ github.repository }}
   
       - name: Run Snyk to check for container vulnerabilities
+        id: snyk_image
         uses: snyk/actions/node@master
         with:
           command: code test ghcr.io/$GITHUB_REPO:$TAG
@@ -75,6 +78,6 @@ jobs:
 
       - name: Upload sarif files
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: always() && (steps.snyk_code.outcome == 'failure' || steps.snyk_image == 'failure')
         with:
           sarif_file: "snyk-container.sarif"
