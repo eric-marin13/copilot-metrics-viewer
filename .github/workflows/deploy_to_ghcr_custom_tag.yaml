@@ -60,9 +60,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push Docker Image
+        id: build
         run: |
           GITHUB_REPO="${GITHUB_REPO,,}"  # convert repo name to lowercase as required by docker
           TAG=${{ github.event.inputs.tag }}
+          echo "GITHUB_REPO=$GITHUB_REPO" >> $GITHUB_ENV
+          echo "TAG=$TAG" >> $GITHUB_ENV 
           echo "building docker image in repository '$GITHUB_REPO' with tag '$TAG' ..."
           docker build --label "org.opencontainers.image.title=copilot-metrics-viewer" --label "org.opencontainers.image.description=Metrics viewer for GitHub Copilot usage" --label "org.opencontainers.image.source=$GITHUB_REPO" -t ghcr.io/$GITHUB_REPO:$TAG .
           docker push ghcr.io/$GITHUB_REPO:$TAG
@@ -73,7 +76,7 @@ jobs:
         id: snyk_image
         uses: snyk/actions/node@master
         with:
-          command: container test ghcr.io/$GITHUB_REPO:$TAG
+          command: container test ghcr.io/${{ env.GITHUB_REPO }}:${{ env.TAG }}
           args: --sarif-file-output=snyk/container.sarif --file=Dockerfile --severity-threshold=critical
 
       - name: Upload sarif files
