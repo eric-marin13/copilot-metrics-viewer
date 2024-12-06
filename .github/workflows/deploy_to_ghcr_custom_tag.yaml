@@ -25,8 +25,8 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all history for all tags and branches
 
-      - name: Checkout specific tag
-        run: git checkout tags/v${{ github.event.inputs.tag }}
+      # - name: Checkout specific tag
+      #   run: git checkout tags/v${{ github.event.inputs.tag }}
 
       - name: Run Snyk to check for code vulnerabilities
         uses: snyk/actions/node@master
