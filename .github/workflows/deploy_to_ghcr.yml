@@ -3,9 +3,6 @@ name: Build, push Docker image and deploy to Azure
 on:
   workflow_dispatch:
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
 permissions:
   packages: write
 
