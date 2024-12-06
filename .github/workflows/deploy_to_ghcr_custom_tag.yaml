@@ -34,7 +34,7 @@ jobs:
       #   uses: snyk/actions/node@master
       #   with:
       #     command: code test
-      #     args: --sarif-file-output=snyk-code.sarif --severity-threshold=high
+      #     args: --sarif-file-output=snyk/code.sarif --severity-threshold=high
 
       # - name: Check SARIF for critical vulnerabilities
       #   run: |
@@ -74,10 +74,10 @@ jobs:
         uses: snyk/actions/node@master
         with:
           command: container test ghcr.io/$GITHUB_REPO:$TAG
-          args: --sarif-file-output=snyk-container.sarif --file=Dockerfile --severity-threshold=critical
+          args: --sarif-file-output=snyk/container.sarif --file=Dockerfile --severity-threshold=critical
 
       - name: Upload sarif files
         uses: github/codeql-action/upload-sarif@v3
-        if: always() && (steps.snyk_code.outcome == 'failure' || steps.snyk_image == 'failure')
+        if: always()
         with:
-          sarif_file: "snyk-container.sarif"
+          sarif_file: './snyk'
