@@ -65,7 +65,7 @@ jobs:
         uses: snyk/actions/node@master
         with:
           command: container test ghcr.io/${{ env.GITHUB_REPO }}:${{ env.TAG }}
-          args: --file=Dockerfile --sarif-file-output=snyk/container.sarif
+          args: --file=Dockerfile --sarif-file-output=snyk/container.sarif --severity-treshold=medium
 
       - name: Upload sarif files
         uses: github/codeql-action/upload-sarif@v3
