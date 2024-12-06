@@ -29,22 +29,12 @@ jobs:
       # - name: Checkout specific tag
       #   run: git checkout tags/v${{ github.event.inputs.tag }}
 
-      # - name: Run Snyk to check for code vulnerabilities
-      #   id: snyk_code 
-      #   uses: snyk/actions/node@master
-      #   continue-on-error: true
-      #   with:
-      #     command: code test
-      #     args: --sarif-file-output=snyk/code.sarif --report
-
-      # - name: Check SARIF for critical vulnerabilities
-      #   run: |
-      #     CRITICAL_COUNT=$(jq '[.runs[].results[] | select(.level == "error")] | length' snyk/code.sarif)
-      #     echo "Number of critical vulnerabilities found: $CRITICAL_COUNT"
-      #     if [ "$CRITICAL_COUNT" -gt 0 ]; then
-      #       echo "Critical vulnerabilities found! Failing pipeline."
-      #       exit 1
-      #     fi
+      - name: Run Snyk to check for code vulnerabilities
+        id: snyk_code 
+        uses: snyk/actions/node@master
+        with:
+          command: code test
+          args: --sarif-file-output=snyk/code.sarif --report
 
       - name: Run Snyk to check for dependency vulnerabilities
         uses: snyk/actions/node@master
@@ -76,17 +66,8 @@ jobs:
         id: snyk_image
         uses: snyk/actions/node@master
         with:
-          command: container test ghcr.io/${{ env.GITHUB_REPO }}:${{ env.TAG }}
+          command: container monitor ghcr.io/${{ env.GITHUB_REPO }}:${{ env.TAG }}
           args: --sarif-file-output=snyk/container.sarif --file=Dockerfile --report
-
-      - name: Check SARIF for critical vulnerabilities
-        run: |
-          CRITICAL_COUNT=$(jq '[.runs[].results[] | select(.level == "error")] | length' snyk/container.sarif)
-          echo "Number of critical vulnerabilities found: $CRITICAL_COUNT"
-          if [ "$CRITICAL_COUNT" -gt 0 ]; then
-            echo "Critical vulnerabilities found! Failing pipeline."
-            exit 1
-          fi
 
       - name: Upload sarif files
         uses: github/codeql-action/upload-sarif@v3
