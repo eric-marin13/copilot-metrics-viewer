@@ -67,8 +67,10 @@ jobs:
           image: ghcr.io/${{ env.GITHUB_REPO }}:${{ env.TAG }}
           args: --file=Dockerfile --sarif-file-output=snyk/container.sarif --severity-treshold=medium
 
+      - run: ls
+
       - name: Upload sarif files
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
-          sarif_file: './snyk/'
+          sarif_file: 'snyk/'
