@@ -64,7 +64,8 @@ jobs:
       - name: Run Snyk to check for container vulnerabilities
         uses: snyk/actions/node@master
         with:
-          command: container test ghcr.io/${{ env.GITHUB_REPO }}:${{ env.TAG }}
+          command: container test
+          image: ghcr.io/${{ env.GITHUB_REPO }}:${{ env.TAG }}
           args: --file=Dockerfile --sarif-file-output=snyk/container.sarif --severity-treshold=medium
 
       - name: Upload sarif files
