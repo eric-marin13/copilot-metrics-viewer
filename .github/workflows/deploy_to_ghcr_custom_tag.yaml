@@ -42,7 +42,7 @@ jobs:
         continue-on-error: true
         with:
           command: test
-          args: --sarif-file-output=snyk/dependencies.sarif
+          args: --sarif-file-output=snyk/dependencies.sarif --all-projects
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
