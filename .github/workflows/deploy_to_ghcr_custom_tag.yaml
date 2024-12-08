@@ -29,12 +29,12 @@ jobs:
       # - name: Checkout specific tag
       #   run: git checkout tags/v${{ github.event.inputs.tag }}
 
-      # - name: Run Snyk to check for code vulnerabilities
-      #   id: snyk_code 
-      #   uses: snyk/actions/node@master
-      #   with:
-      #     command: code test
-      #     args: --sarif-file-output=snyk/code.sarif 
+      - name: Run Snyk to check for code vulnerabilities
+        id: snyk_code 
+        uses: snyk/actions/node@master
+        with:
+          command: code test
+          args: --sarif-file-output=snyk/code.sarif 
 
       - name: Run Snyk to check for dependency vulnerabilities
         uses: snyk/actions/node@master
@@ -67,9 +67,6 @@ jobs:
           image: ${{ env.IMAGE }}
           args: --file=Dockerfile --sarif-file-output=snyk/code.sarif
           sarif: false
-
-      - run: ls
-        if: always()
 
       - name: Upload sarif files
         uses: github/codeql-action/upload-sarif@v3
