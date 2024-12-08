@@ -34,13 +34,13 @@ jobs:
       #   uses: snyk/actions/node@master
       #   with:
       #     command: code test
-      #     args: --sarif-file-output=snyk/code.sarif --severity-threshold=high
+      #     args: --sarif-file-output=snyk/code.sarif 
 
       - name: Run Snyk to check for dependency vulnerabilities
         uses: snyk/actions/node@master
         with:
           command: test
-          args: --sarif-file-output=snyk/dependencies.sarif --all-projects --severity-threshold=high
+          args: --sarif-file-output=snyk/dependencies.sarif --all-projects 
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
